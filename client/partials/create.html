@@ -1,0 +1,51 @@
+<div ng-controller = "createpollsController">
+
+	<a class="btn btn-primary" ng-Click = "cancelPoll()">Cancel</a>
+
+
+	<h3>Put the question and options here:</h3>
+
+		<form class ="col-md-4" name = "myForm">
+		  <div class="form-group">
+		  	Question: <input type="text" class="form-control" id="question" name = "question" ng-model = "newPoll.question" ng-minlength = "8">
+			  	<div role="alert">
+	            	<span class="error" ng-show="myForm.question.$error.minlength">Too short!</span>
+	        	</div>		  		
+		  </div>
+		  <div class="form-group">
+		  	Option 1: <input type="text" class="form-control" id="option1" name = "option1" ng-model = "newPoll.option1" ng-minlength = "3">
+			  	<div role="alert">
+	            	<span class="error" ng-show="myForm.option1.$error.minlength">Too short!</span>
+	        	</div>
+		  </div>
+		  <div class="form-group">
+		  	Option 2: <input type="text" class="form-control" id="option1" name = "option2" ng-model = "newPoll.option2" ng-minlength = "3">
+			  	<div role="alert">
+	            	<span class="error" ng-show="myForm.option2.$error.minlength">Too short!</span>
+	        	</div>
+		  </div>
+		  <div class="form-group">
+		  	Option 3: <input type="text" class="form-control" id="option1" name = "option3" ng-model = "newPoll.option3" ng-minlength = "3">
+			  	<div role="alert">
+	            	<span class="error" ng-show="myForm.option3.$error.minlength">Too short!</span>
+	        	</div>
+		  </div>
+		  <div class="form-group">
+		  	Option 4: <input type="text" class="form-control" id="option1" name = "option4" ng-model = "newPoll.option4" ng-minlength = "3">
+			  	<div role="alert">
+	            	<span class="error" ng-show="myForm.option4.$error.minlength">Too short!</span>
+	        	</div>
+		  </div>
+
+		   <input type="hidden" class="form-control" ng-model = "newPoll.user_name" ng-value = "newPoll.user_name=current_user">
+		  <button type="submit" class="btn btn-primary" ng-Click = "addPoll()">Create Poll</button>
+	</form>
+
+	<div ng-repeat= "e in error">
+		<div ng-repeat= "z in e">
+			<p>{{z.message}}</p>
+		</div>
+	</div>
+
+
+</div>

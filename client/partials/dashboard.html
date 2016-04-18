@@ -1,0 +1,35 @@
+<div ng-controller = "dashboardsController">
+
+	<a class="btn btn-primary" ng-Click = "createPoll()">Create a New Poll</a>
+	<a class="btn btn-primary" ng-Click = "clearUser()">Logout</a>
+
+  <input type="text" placeholder="Search" ng-model="pollSearch">
+
+
+	<h1>Current Polls:</h1>
+	<table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Survey Question</th>
+        <th>Date Posted</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat = "poll in polls | filter:pollSearch">
+        <td>{{poll.user_name}}</td>
+        <td><a href = "/#/poll/{{poll._id}}">{{poll.question}}</a></td>
+        <td>{{poll.created_at|date:"MMMM dd, yyyy"}}</td>
+        <td>
+          <div ng-if = "poll.user_name === current_user">
+            <button type = "submit" class = "btn btn-primary" ng-Click = "deletePoll(poll._id)">Delete</button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+
+
+</div>
