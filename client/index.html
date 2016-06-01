@@ -52,10 +52,6 @@
           }
           factory.createUser = function(user){
             users.push(user)
-            // console.log(user.name + " in factory")
-            // $http.post('/createuser', user).success(function(output){
-              // console.log(output)
-            
           }
 
           factory.getAllUsers = function(callback){
@@ -64,7 +60,6 @@
               })
             }
           factory.getUser = function(name, callback){
-            // console.log(name)
             $http.get('/userprofile/' + name).success(function(output){
               console.log(output)
               callback(output);
@@ -88,14 +83,12 @@
           factory.getPolls = function(callback){
             $http.get('/polls').success(function(output){
               callback(output);
-              // console.log(output)
               })
             }
 
           factory.getPoll = function(id,callback){
             $http.get('/findpoll/'+id).success(function(output){
               callback(output);
-              // console.log(output)
               })
             }
 
@@ -103,28 +96,24 @@
             console.log("in like1 in poll factory"+ id)
             $http.post('/option1/'+ id).success(function(output){
               callback(output);
-              // console.log(output)
               })
             }
           factory.like2 = function(id, callback){
             console.log("in like2 in poll factory"+ id)
             $http.post('/option2/'+ id).success(function(output){
               callback(output);
-              // console.log(output)
               })
             }                       
           factory.like3 = function(id, callback){
             console.log("in like3 in poll factory"+ id)
             $http.post('/option3/'+ id).success(function(output){
               callback(output);
-              // console.log(output)
               })
             } 
           factory.like4 = function(id, callback){
             console.log("in like4 in poll factory"+ id)
             $http.post('/option4/'+ id).success(function(output){
               callback(output);
-              // console.log(output)
               })
             }
           factory.deletePoll = function(id, callback){
@@ -132,7 +121,6 @@
             $http.post('/delete/'+ id).success(function(){
               console.log("in deletepoll")
               callback();
-              // console.log(output)
               })
             }             
             return factory;
@@ -158,7 +146,6 @@
           $scope.users = [];
           $scope.allusers = [];
           $scope.items = []
-          // console.log("topics controller")
 
           pollFactory.getPolls(function(data){
             $scope.polls = data
@@ -176,7 +163,6 @@
           }
 
           $scope.clearUser = function(){
-            // console.log("hello")
             userFactory.logout(function(data){
               $scope.users = []
               $location.path('/')
@@ -184,7 +170,6 @@
           } 
           
           $scope.deletePoll = function(id){
-            // console.log(id)
             pollFactory.deletePoll(id, function(data){
                 pollFactory.getPolls(function(data){
                   $scope.polls = data
@@ -200,7 +185,6 @@
           $scope.allusers = [];
           $scope.items = []
           $scope.polls = []
-          // console.log("topics controller")
 
 
 
@@ -213,9 +197,6 @@
 
           $scope.addPoll = function(data){
             console.log($scope.newPoll)
-            // if($scope.newPoll.option1==='undefined'){
-            //   console.log("option1 is empty")
-            // }
             pollFactory.createPoll($scope.newPoll, function(data){
                 if(data.message == "Poll validation failed"){
                   console.log("error message")
