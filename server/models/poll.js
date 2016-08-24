@@ -1,8 +1,3 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema
-var uniqueValidator = require('mongoose-unique-validator')
-
-
 var PollSchema = new mongoose.Schema({ 
   user_name: String,
   question: { type: String, required: true, min:[8, 'Question is not long enough - must be a min of 8 characters'] },
@@ -15,7 +10,7 @@ var PollSchema = new mongoose.Schema({
   option3_count: {type:Number, default:0},
   option4_count: {type:Number, default:0},
   created_at: {type: Date, default: new Date}
-});
+})
 
-PollSchema.plugin(uniqueValidator);
-mongoose.model('Poll', PollSchema);
+PollSchema.plugin(uniqueValidator)
+mongoose.model('Poll', PollSchema)

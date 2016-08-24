@@ -1,239 +1,233 @@
 <html ng-app = "myApp">
-	<head>
-	<script src="https://code.jquery.com/jquery-1.12.3.min.js"   integrity="sha256-aaODHAgvwQW1bFOGXMeX+pC4PZIPsvn2h1sArYOhgXQ="   crossorigin="anonymous"></script>
-
-	<!-- Angular CDN -->
-   <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular.min.js"></script>
-   <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular-route.min.js"></script>
-
-   <script src="https://code.jquery.com/jquery-1.12.3.min.js"   integrity="sha256-aaODHAgvwQW1bFOGXMeX+pC4PZIPsvn2h1sArYOhgXQ="   crossorigin="anonymous"></script>
-
-   <!-- Bootstrap CDN -->
+  <head>
+    <script src="https://code.jquery.com/jquery-1.12.3.min.js"   integrity="sha256-aaODHAgvwQW1bFOGXMeX+pC4PZIPsvn2h1sArYOhgXQ="   crossorigin="anonymous"></script>
+    <!-- Angular CDN -->
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular-route.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.3.min.js"   integrity="sha256-aaODHAgvwQW1bFOGXMeX+pC4PZIPsvn2h1sArYOhgXQ="   crossorigin="anonymous"></script>
+    <!-- Bootstrap CDN -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-
     <!-- Optional theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
-
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-	    <script>
+    <script>
+      var myAppDB = angular.module('myApp', ['ngRoute']);
+      myAppDB.config(function ($routeProvider) {
+       $routeProvider
+          .when('/',{
+              templateUrl: 'partials/login.html'
+          })
+           .when('/dashboard',{
+              templateUrl: 'partials/dashboard.html'
+          })
+           .when('/poll/:id',{
+              templateUrl: 'partials/poll.html'
+          })
+           .when('/create',{
+              templateUrl: 'partials/create.html'
+          })            
+          .otherwise({
+            redirectTo: '/'
+        });
+      }); 
 
-        var myAppDB = angular.module('myApp', ['ngRoute']);
-        myAppDB.config(function ($routeProvider) {
-         $routeProvider
-            .when('/',{
-                templateUrl: 'partials/login.html'
-            })
-             .when('/dashboard',{
-                templateUrl: 'partials/dashboard.html'
-            })
-             .when('/poll/:id',{
-                templateUrl: 'partials/poll.html'
-            })
-             .when('/create',{
-                templateUrl: 'partials/create.html'
-            })            
-            .otherwise({
-              redirectTo: '/'
-            });
-          }); 
+      myAppDB.factory('userFactory',function ($http){
+        var users = []
+        var factory = {}
 
-          myAppDB.factory('userFactory',function ($http){
-          var users = []
-          var factory = {}
+        factory.getUsers = function (callback){
+          callback(users)
+        }
 
-          factory.getUsers = function (callback){
-            callback(users)
-          }
-          factory.logout = function (callback){
-            console.log("logout")
-            users = []
+        factory.logout = function (callback){
+          console.log("logout")
+          users = []
+          callback()
+        }
+
+        factory.createUser = function(user){
+          users.push(user)
+        }
+
+        factory.getAllUsers = function(callback){
+          $http.get('/users').success(function(output){
+            callback(output)
+          })
+        }
+
+        factory.getUser = function(name, callback){
+          $http.get('/userprofile/' + name).success(function(output){
+            console.log(output)
+            callback(output)
+          })
+        } 
+        return factory;
+      });
+
+      myAppDB.factory('pollFactory',function ($http){
+        var polls = []
+        var factory = {}
+
+        factory.createPoll = function (poll,callback){
+          console.log(poll)
+          $http.post('/createpoll', poll).success(function(output){
+            console.log(output)
+            callback(output)
+          })
+        }
+
+        factory.getPolls = function(callback){
+          $http.get('/polls').success(function(output){
+            callback(output)
+          })
+        }
+
+        factory.getPoll = function(id,callback){
+          $http.get('/findpoll/'+id).success(function(output){
+            callback(output)
+          })
+        }
+
+        factory.like1 = function(id, callback){
+          console.log("in like1 in poll factory"+ id)
+          $http.post('/option1/'+id).success(function(output){
+            callback(output)
+          })
+        }
+
+        factory.like2 = function(id, callback){
+          console.log("in like2 in poll factory"+ id)
+          $http.post('/option2/'+id).success(function(output){
+            callback(output)
+            })
+        } 
+
+        factory.like3 = function(id, callback){
+          console.log("in like3 in poll factory"+ id)
+          $http.post('/option3/'+id).success(function(output){
+            callback(output)
+          })
+        } 
+
+        factory.like4 = function(id, callback){
+          console.log("in like4 in poll factory"+ id)
+          $http.post('/option4/'+ id).success(function(output){
+            callback(output)
+          })
+        }
+
+        factory.deletePoll = function(id, callback){
+          console.log("in deletePoll in poll factory" + id)
+          $http.post('/delete/'+ id).success(function(){
+            console.log("in deletepoll")
             callback()
-          }
-          factory.createUser = function(user){
-            users.push(user)
-          }
-
-          factory.getAllUsers = function(callback){
-            $http.get('/users').success(function(output){
-              callback(output);
-              })
-            }
-          factory.getUser = function(name, callback){
-            $http.get('/userprofile/' + name).success(function(output){
-              console.log(output)
-              callback(output);
-              })
-            }           
-          return factory;
-          });
-
-        myAppDB.factory('pollFactory',function ($http){
-            var polls = []
-            var factory = {}
-
-            factory.createPoll = function (poll,callback){
-              console.log(poll)
-              $http.post('/createpoll', poll).success(function(output){
-                console.log(output)
-                callback(output)
-              })
-            }
-
-          factory.getPolls = function(callback){
-            $http.get('/polls').success(function(output){
-              callback(output);
-              })
-            }
-
-          factory.getPoll = function(id,callback){
-            $http.get('/findpoll/'+id).success(function(output){
-              callback(output);
-              })
-            }
-
-          factory.like1 = function(id, callback){
-            console.log("in like1 in poll factory"+ id)
-            $http.post('/option1/'+ id).success(function(output){
-              callback(output);
-              })
-            }
-          factory.like2 = function(id, callback){
-            console.log("in like2 in poll factory"+ id)
-            $http.post('/option2/'+ id).success(function(output){
-              callback(output);
-              })
-            }                       
-          factory.like3 = function(id, callback){
-            console.log("in like3 in poll factory"+ id)
-            $http.post('/option3/'+ id).success(function(output){
-              callback(output);
-              })
-            } 
-          factory.like4 = function(id, callback){
-            console.log("in like4 in poll factory"+ id)
-            $http.post('/option4/'+ id).success(function(output){
-              callback(output);
-              })
-            }
-          factory.deletePoll = function(id, callback){
-            console.log("in deletePoll in poll factory" + id)
-            $http.post('/delete/'+ id).success(function(){
-              console.log("in deletepoll")
-              callback();
-              })
-            }             
-            return factory;
           })
+        }             
+        return factory
+      })
 
 
-        myAppDB.controller('usersController', function($scope, $location, userFactory, $routeParams){
-          $scope.users = [];
-          console.log($scope.users)
-          
-          userFactory.getUsers(function(data){
-            $scope.users = data
-          })
+      myAppDB.controller('usersController', function($scope, $location, userFactory, $routeParams){
+        $scope.users = []
 
-          $scope.addUser = function(data){
-            userFactory.createUser($scope.newUser);
-              $scope.newUser = {};
-              $location.path('/dashboard')
-          }
-        })  
+        userFactory.getUsers(function(data){
+          $scope.users = data
+        })
 
-        myAppDB.controller('dashboardsController', function($scope, $location, userFactory, pollFactory){
-          $scope.users = [];
-          $scope.allusers = [];
-          $scope.items = []
-
-          pollFactory.getPolls(function(data){
-            $scope.polls = data
-            console.log(data)
-          })
-
-          userFactory.getUsers(function(data){
-            $scope.users = data
-            $scope.current_user = data[0].name
-            console.log($scope.current_user)
-          })
-
-          $scope.createPoll = function(){
-            $location.path('/create')
-          }
-
-          $scope.clearUser = function(){
-            userFactory.logout(function(data){
-              $scope.users = []
-              $location.path('/')
-            })
-          } 
-          
-          $scope.deletePoll = function(id){
-            pollFactory.deletePoll(id, function(data){
-                pollFactory.getPolls(function(data){
-                  $scope.polls = data
-                  console.log(data)
-              })              
-            })
-          }         
-        
-        })   
-
-        myAppDB.controller('createpollsController', function($scope, $location, userFactory, pollFactory){
-          $scope.users = [];
-          $scope.allusers = [];
-          $scope.items = []
-          $scope.polls = []
-
-
-
-          userFactory.getUsers(function(data){
-            $scope.users = data
-            $scope.current_user = data[0].name
-            console.log($scope.current_user)
-          })
-          console.log("before addPoll")
-
-          $scope.addPoll = function(data){
-            console.log($scope.newPoll)
-            pollFactory.createPoll($scope.newPoll, function(data){
-                if(data.message == "Poll validation failed"){
-                  console.log("error message")
-                  $scope.error = data
-                  console.log($scope.error)
-                }
-                else{
-                  $location.path('/dashboard')
-                }
-            }); 
-          }
-
-          $scope.cancelPoll = function(data){
+        $scope.addUser = function(data){
+          userFactory.createUser($scope.newUser);
+            $scope.newUser = {}
             $location.path('/dashboard')
-          }  
+        }
+      })  
 
-        })                        
+      myAppDB.controller('dashboardsController', function($scope, $location, userFactory, pollFactory){
+        $scope.users = []
+        $scope.allusers = []
+        $scope.items = []
 
-        myAppDB.controller('pollsController', function($scope, $location, $routeParams, userFactory, pollFactory){
-          $scope.users = [];
-          $scope.allusers = [];
-          $scope.polls = []
-          var id = $routeParams.id; 
-          $scope.id = id
+        pollFactory.getPolls(function(data){
+          $scope.polls = data
+          console.log(data)
+        })
 
-          userFactory.getUsers(function(data){
-            $scope.users = data
-            $scope.current_user = data[0].name
-            console.log($scope.current_user)
+        userFactory.getUsers(function(data){
+          $scope.users = data
+          $scope.current_user = data[0].name
+          console.log($scope.current_user)
+        })
+
+        $scope.createPoll = function(){
+          $location.path('/create')
+        }
+
+        $scope.clearUser = function(){
+          userFactory.logout(function(data){
+            $scope.users = []
+            $location.path('/')
           })
+      } 
+      
+      $scope.deletePoll = function(id){
+        pollFactory.deletePoll(id, function(data){
+            pollFactory.getPolls(function(data){
+              $scope.polls = data
+              console.log(data)
+          })              
+        })
+      }           
+    })   
 
-          pollFactory.getPoll(id,function(data){
-            $scope.polls=data[0]
-            console.log(data[0])
-          })
-          console.log("before addPoll")
-        
+      myAppDB.controller('createpollsController', function($scope, $location, userFactory, pollFactory){
+        $scope.users = []
+        $scope.allusers = []
+        $scope.items = []
+        $scope.polls = []
+
+        userFactory.getUsers(function(data){
+          $scope.users = data
+          $scope.current_user = data[0].name
+          console.log($scope.current_user)
+        })
+
+        $scope.addPoll = function(data){
+          pollFactory.createPoll($scope.newPoll, function(data){
+              if(data.message == "Poll validation failed"){
+                console.log("error message")
+                $scope.error = data
+                console.log($scope.error)
+              }
+              else{
+                $location.path('/dashboard')
+              }
+          }) 
+        }
+
+        $scope.cancelPoll = function(data){
+          $location.path('/dashboard')
+        }  
+      })                        
+
+      myAppDB.controller('pollsController', function($scope, $location, $routeParams, userFactory, pollFactory){
+        $scope.users = [];
+        $scope.allusers = [];
+        $scope.polls = []
+        var id = $routeParams.id; 
+        $scope.id = id
+
+        userFactory.getUsers(function(data){
+          $scope.users = data
+          $scope.current_user = data[0].name
+          // console.log($scope.current_user)
+        })
+
+        pollFactory.getPoll(id,function(data){
+          $scope.polls=data[0]
+          // console.log(data[0])
+        })
+        // console.log("before addPoll")
+    
         $scope.addLike1 = function(data){
           console.log("poll controller add like for option1")
           pollFactory.like1(id, function(data){
@@ -243,6 +237,7 @@
             })
           })
         }
+
         $scope.addLike2 = function(data){
           console.log("poll controller add like for option1")
           pollFactory.like2(id, function(data){
@@ -252,6 +247,7 @@
             })
           })
         }
+
         $scope.addLike3 = function(data){
           console.log("poll controller add like for option1")
           pollFactory.like3(id, function(data){
@@ -260,7 +256,8 @@
               console.log(data[0])
             })
           })
-        }                
+        }
+
         $scope.addLike4 = function(data){
           console.log("poll controller add like for option1")
           pollFactory.like4(id, function(data){
@@ -270,20 +267,18 @@
             })
           })
         }
+
         $scope.cancelPoll = function(data){
             $location.path('/dashboard')
-          }                  
+        }                  
       })                        
-        
-
-
-      </script>
+    </script>
   </head>
   <body>
     <div class = "container">
       <div ng-view="">
         <h1>Hello</h1>
-          </div>
+      </div>    
     </div>
   </body>
 </html>

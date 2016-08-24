@@ -1,7 +1,6 @@
 var polls = require('./../controllers/polls.js')
 
 module.exports = function(app){
-
 	app.get('/polls', function(req,res){
 		polls.index(req,res)
 	})	
@@ -26,5 +25,4 @@ module.exports = function(app){
 	app.post('/delete/:id', function(req,res){
 		polls.delete_poll(req,res)
 	})
-
 };

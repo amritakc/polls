@@ -1,41 +1,41 @@
 <div ng-controller = "pollsController">
 
-<a class="btn btn-primary" ng-Click = "cancelPoll()">Go to Polls</a>
+  <a class="btn btn-primary" ng-Click = "cancelPoll()">Go to Polls</a>
 
-<h3>{{polls.question}}</h3>
+  <h3>{{polls.question}}</h3>
 
-<p>Click the Vote button to choose one.</p>
+  <p>Click the Vote button to choose one.</p>
 
-	<table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Option</th>
-        <th>Current Count of Vote</th>
-        <th>Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-      	<td>{{polls.option1}}</td>
-      	<td>{{polls.option1_count}}</td>
-      	<td><button type="submit" class="btn btn-primary" ng-Click = "addLike1()">Like</button></td>
-      <tr>
-      <tr>
-      	<td>{{polls.option2}}</td>
-      	<td>{{polls.option2_count}}</td>
-        <td><button type="submit" class="btn btn-primary" ng-Click = "addLike2()">Like</button></td>
-      <tr>
-      <tr>
-      	<td>{{polls.option3}}</td>
-      	<td>{{polls.option3_count}}</td>
-        <td><button type="submit" class="btn btn-primary" ng-Click = "addLike3()">Like</button></td>
-      <tr>
-      <tr>
-      	<td>{{polls.option4}}</td>
-      	<td>{{polls.option4_count}}</td>
-        <td><button type="submit" class="btn btn-primary" ng-Click = "addLike4()">Like</button></td>
-      <tr>
-    </tbody>
-  </table>
+  	<table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Option</th>
+          <th>Current Count of Vote</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+        	<td>{{polls.option1}}</td>
+        	<td>{{polls.option1_count}}</td>
+        	<td><button type="submit" class="btn btn-primary" ng-Click = "addLike1()">Like</button></td>
+        <tr>
+        <tr>
+        	<td>{{polls.option2}}</td>
+        	<td>{{polls.option2_count}}</td>
+          <td><button type="submit" class="btn btn-primary" ng-Click = "addLike2()">Like</button></td>
+        <tr>
+        <tr>
+        	<td>{{polls.option3}}</td>
+        	<td>{{polls.option3_count}}</td>
+          <td><button type="submit" class="btn btn-primary" ng-Click = "addLike3()">Like</button></td>
+        <tr>
+        <tr>
+        	<td>{{polls.option4}}</td>
+        	<td>{{polls.option4_count}}</td>
+          <td><button type="submit" class="btn btn-primary" ng-Click = "addLike4()">Like</button></td>
+        <tr>
+      </tbody>
+    </table>
 
 </div>
